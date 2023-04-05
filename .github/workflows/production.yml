@@ -23,6 +23,7 @@ jobs:
       matrix:
         directory:
           - "model"
+          - "mysql"
     steps:
       - uses: actions/checkout@v3
       - uses: hashicorp/setup-terraform@v1
