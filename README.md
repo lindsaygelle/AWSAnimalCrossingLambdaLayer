@@ -1,0 +1,2 @@
+# AWSAnimalCrossingLambdaLayer
+AWSAnimalCrossingLambdaLayer
