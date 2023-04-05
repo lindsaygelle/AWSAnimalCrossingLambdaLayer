@@ -1,0 +1,77 @@
+name: "pull_request"
+
+on:
+  pull_request:
+    branches:
+      - "main"
+  workflow_dispatch:
+
+jobs:
+  pylint:
+    defaults:
+      run:
+        shell: "bash"
+    env:
+      PIP_TIMEOUT: 10
+    permissions:
+      contents: "write"
+    runs-on: "ubuntu-latest"
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v4
+        with:
+          python-version: 3.8
+      - name: Run Pylint install
+        run: |
+          pip install pylint \
+          --no-color \
+          --no-input \
+          --timeout=$PIP_TIMEOUT \
+          --verbose
+      - name: Run Pylint tests
+        run: |
+          pylint \
+          --verbose **/*.py
+  terraform:
+    defaults:
+      run:
+        shell: "bash"
+    environment:
+      name: "production"
+    env:
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+    needs:
+      - pylint
+    permissions:
+      contents: "read"
+    runs-on: "ubuntu-latest"
+    strategy:
+      matrix:
+        directory:
+          - "model"
+    steps:
+      - run: printenv
+      - uses: actions/checkout@v3
+      - uses: hashicorp/setup-terraform@v1
+      - name: Run ${{ matrix.directory }} terraform init
+        working-directory: ${{ matrix.directory }}
+        run: |
+          terraform init \
+          -input=false \
+          -no-color \
+          -reconfigure
+      - name: Run ${{ matrix.directory }} terraform fmt
+        working-directory: ${{ matrix.directory }}
+        run: |
+          terraform fmt \
+          -check \
+          -list=true \
+          -no-color \
+      - name: Run ${{ matrix.directory }} terraform plan
+        working-directory: ${{ matrix.directory }}
+        run: |
+          terraform plan \
+          -input=false \
+          -no-color \
+          -lock=false

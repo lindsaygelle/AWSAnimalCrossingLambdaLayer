@@ -1,0 +1,25 @@
+Initial commit
+
+# Please enter the commit message for your changes. Lines starting
+# with '#' will be ignored, and an empty message aborts the commit.
+#
+# Date:      Wed Apr 5 16:59:56 2023 +1000
+#
+# On branch dev
+# Changes to be committed:
+#	new file:   .github/workflows/production.yml
+#	new file:   .github/workflows/pull_request.yml
+#	new file:   model/README.md
+#	new file:   model/archive_file.tf
+#	new file:   model/aws_lambda_layer_version.output.tf
+#	new file:   model/aws_lambda_layer_version.tf
+#	new file:   model/provider.tf
+#	new file:   model/src/README.md
+#	new file:   model/src/db.py
+#	new file:   model/src/hha.py
+#	new file:   model/src/net.py
+#	new file:   model/src/requirements.txt
+#	new file:   model/src/villager.py
+#	new file:   model/terraform.tf
+#	new file:   model/var.tf
+#
