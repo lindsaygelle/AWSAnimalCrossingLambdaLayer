@@ -32,7 +32,6 @@ jobs:
           python-version: 3.8
       - uses: hashicorp/setup-terraform@v1
       - name: Run (${{ matrix.directory }}) Python@v4 pip install
-        if: "[[ -f ./src/requirements.txt ]]"
         run: |
           pip install \
           -r ./src/requirements.txt \
