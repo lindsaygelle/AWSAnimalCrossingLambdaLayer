@@ -35,8 +35,8 @@ jobs:
         working-directory: ${{ matrix.directory }}
         run: |
           pip install \
-          -r ${{ matrix.directory }}/src/requirements.txt \
-          -t ${{ matrix.directory }}/src/ \
+          -r ./src/requirements.txt \
+          -t ./src/ \
           --no-color \
           --no-input \
           --no-user \
