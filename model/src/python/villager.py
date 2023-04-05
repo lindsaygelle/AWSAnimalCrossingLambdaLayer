@@ -1,6 +1,10 @@
 """villager"""
 from typing import Literal, TypeVar
+
+# pylint: disable=E0401
 from db import RowType
+
+# pylint: disable=E0401
 from net import LinkType
 
 ResourceTypeT = TypeVar(
@@ -10,6 +14,7 @@ ResourceTypeT = TypeVar(
 )
 
 
+# pylint: disable=R0903
 class CommonType(RowType):
     """CommonType"""
 
@@ -19,6 +24,7 @@ class CommonType(RowType):
     link: LinkType
 
 
+# pylint: disable=R0903
 class CommonDetailType(CommonType):
     """CommonDetailType"""
 
@@ -27,6 +33,7 @@ class CommonDetailType(CommonType):
     is_special: False
 
 
+# pylint: disable=R0903
 class SpecialDetailType(CommonDetailType):
     """SpecialDetailType"""
 

@@ -1,2 +1,0 @@
-# AnimalCrossingModel/src
-AnimalCrossingModel/src

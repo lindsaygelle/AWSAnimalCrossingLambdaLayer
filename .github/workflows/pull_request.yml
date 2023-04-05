@@ -32,15 +32,12 @@ jobs:
         run: |
           pylint \
           --verbose **/*.py
-  terraform:
+  pip:
     defaults:
       run:
         shell: "bash"
-    environment:
-      name: "production"
     env:
-      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      PIP_TIMEOUT: 10
     needs:
       - pylint
     permissions:
@@ -52,7 +49,47 @@ jobs:
           - "model"
           - "mysql"
     steps:
-      - run: printenv
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v4
+        with:
+          python-version: 3.8
+      - uses: hashicorp/setup-terraform@v1
+      - name: ${{ matrix.directory }}
+        working-directory: ${{ matrix.directory }}
+        run: |
+          ls -l
+      - name: Run (${{ matrix.directory }}) Python@v4 pip install (dry)
+        working-directory: ${{ matrix.directory }}
+        run: |
+          pip install \
+          -r $(pwd)/src/python/requirements.txt \
+          -t $(pwd)/src/python \
+          --dry-run \
+          --no-color \
+          --no-input \
+          --no-user \
+          --timeout=$PIP_TIMEOUT \
+          --verbose
+  terraform:
+    defaults:
+      run:
+        shell: "bash"
+    environment:
+      name: "production"
+    env:
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+    needs:
+      - pip
+    permissions:
+      contents: "read"
+    runs-on: "ubuntu-latest"
+    strategy:
+      matrix:
+        directory:
+          - "model"
+          - "mysql"
+    steps:
       - uses: actions/checkout@v3
       - uses: hashicorp/setup-terraform@v1
       - name: Run (${{ matrix.directory }}) terraform@v1 init
