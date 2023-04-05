@@ -1,5 +1,5 @@
 data "archive_file" "model" {
-  output_path = "./model.zip"
+  output_path = "./AnimalCrossingModel.zip"
   source_dir  = "./src"
   type        = "zip"
 }
