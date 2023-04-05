@@ -1,0 +1,43 @@
+name: "production"
+
+on:
+  push:
+    branches:
+      - "main"
+  workflow_dispatch:
+
+jobs:
+  terraform:
+    defaults:
+      run:
+        shell: "bash"
+    environment:
+      name: "production"
+    env:
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+    permissions:
+      contents: "read"
+    runs-on: "ubuntu-latest"
+    strategy:
+      matrix:
+        directory:
+          - "model"
+    steps:
+      - uses: actions/checkout@v3
+      - uses: hashicorp/setup-terraform@v1
+      - name: Run ${{ matrix.directory }} terraform init
+        working-directory: ${{ matrix.directory }}
+        run: |
+          terraform init \
+          -input=false \
+          -no-color \
+          -reconfigure
+      - name: Run ${{ matrix.directory }} terraform apply
+        working-directory: ${{ matrix.directory }}
+        run: |
+          terraform apply \
+          -auto-approve \
+          -input=false \
+          -no-color \
+          -lock=true
