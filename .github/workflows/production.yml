@@ -32,10 +32,11 @@ jobs:
           python-version: 3.8
       - uses: hashicorp/setup-terraform@v1
       - name: Run (${{ matrix.directory }}) Python@v4 pip install
+        working-directory: ${{ matrix.directory }}
         run: |
           pip install \
-          -r ./src/requirements.txt \
-          -t ./src/ \
+          -r ${{ matrix.directory }}/src/requirements.txt \
+          -t ${{ matrix.directory }}/src/ \
           --no-color \
           --no-input \
           --no-user \
