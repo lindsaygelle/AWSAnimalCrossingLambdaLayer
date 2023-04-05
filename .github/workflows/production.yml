@@ -16,8 +16,9 @@ jobs:
     env:
       AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      PIP_TIMEOUT: 10
     permissions:
-      contents: "read"
+      contents: "write"
     runs-on: "ubuntu-latest"
     strategy:
       matrix:
@@ -26,15 +27,28 @@ jobs:
           - "mysql"
     steps:
       - uses: actions/checkout@v3
+      - uses: actions/setup-python@v4
+        with:
+          python-version: 3.8
       - uses: hashicorp/setup-terraform@v1
-      - name: Run ${{ matrix.directory }} terraform init
+      - name: Run (${{ matrix.directory }}) Python@v4 pip install
+        run: |
+          pip install \
+          -r src/requirements.txt \
+          -t src/ \
+          --no-color \
+          --no-input \
+          --no-user \
+          --timeout=$PIP_TIMEOUT \
+          --verbose
+      - name: Run (${{ matrix.directory }}) terraform@v1 init
         working-directory: ${{ matrix.directory }}
         run: |
           terraform init \
           -input=false \
           -no-color \
           -reconfigure
-      - name: Run ${{ matrix.directory }} terraform apply
+      - name: Run (${{ matrix.directory }}) terraform@v1 apply
         working-directory: ${{ matrix.directory }}
         run: |
           terraform apply \

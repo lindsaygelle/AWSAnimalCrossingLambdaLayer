@@ -50,25 +50,26 @@ jobs:
       matrix:
         directory:
           - "model"
+          - "mysql"
     steps:
       - run: printenv
       - uses: actions/checkout@v3
       - uses: hashicorp/setup-terraform@v1
-      - name: Run ${{ matrix.directory }} terraform init
+      - name: Run (${{ matrix.directory }}) terraform@v1 init
         working-directory: ${{ matrix.directory }}
         run: |
           terraform init \
           -input=false \
           -no-color \
           -reconfigure
-      - name: Run ${{ matrix.directory }} terraform fmt
+      - name: Run (${{ matrix.directory }}) terraform@v1 fmt
         working-directory: ${{ matrix.directory }}
         run: |
           terraform fmt \
           -check \
           -list=true \
           -no-color \
-      - name: Run ${{ matrix.directory }} terraform plan
+      - name: Run (${{ matrix.directory }}) terraform@v1 plan
         working-directory: ${{ matrix.directory }}
         run: |
           terraform plan \
