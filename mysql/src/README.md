@@ -1,2 +1,0 @@
-# AnimalCrossingMySQL/src
-AnimalCrossingMySQL/src
