@@ -23,9 +23,6 @@ jobs:
           - "mysql"
     steps:
       - uses: actions/checkout@v3
-      - uses: "lindsaygelle/AWSAnimalCrossingWorkflows/.github/workflows/pip.yml@main"
-        with:
-          working_directory: "${{ matrix.directory }}/src/python"
-      - uses: "lindsaygelle/AWSAnimalCrossingWorkflows/.github/workflows/terraform.yml@main"
-        with:
-          working_directory: "${{ matrix.directory }}"
+      - name: pip
+        uses: "lindsaygelle/AWSAnimalCrossingWorkflows/.github/actions/pip@dev"
+        working-directory: ${{ matrix.directory }}

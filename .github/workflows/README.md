@@ -1,2 +1,2 @@
-# github/workflows
-github/workflows
+# Workflows
+Workflows
