@@ -5,4 +5,4 @@ on:
 
 jobs:
   main:
-    uses: "lindsaygelle/AWSAnimalCrossingWorkflows/pylint.yml@main"
+    uses: "lindsaygelle/AWSAnimalCrossingWorkflows/.github/workflows/pylint.yml@main"
