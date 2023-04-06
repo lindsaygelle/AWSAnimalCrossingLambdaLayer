@@ -1,0 +1,31 @@
+name: "test"
+
+on:
+  workflow_dispatch:
+
+jobs:
+  main:
+    defaults:
+      run:
+        shell: "bash"
+    environment:
+      name: "production"
+    env:
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+    permissions:
+      contents: "write"
+    runs-on: "ubuntu-latest"
+    strategy:
+      matrix:
+        directory:
+          - "model"
+          - "mysql"
+    steps:
+      - uses: actions/checkout@v3
+      - uses: "lindsaygelle/AWSAnimalCrossingWorkflows/.github/workflows/pip.yml@main"
+        with:
+          working_directory: "${{ matrix.directory }}/src/python"
+      - uses: "lindsaygelle/AWSAnimalCrossingWorkflows/.github/workflows/terraform.yml@main"
+        with:
+          working_directory: "${{ matrix.directory }}"
