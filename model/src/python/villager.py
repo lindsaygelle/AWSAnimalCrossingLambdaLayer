@@ -38,3 +38,4 @@ class SpecialDetailType(CommonDetailType):
     """SpecialDetailType"""
 
     is_special: True
+    resource: Literal["villager_special"]

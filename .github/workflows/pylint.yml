@@ -1,8 +1,0 @@
-name: "Pylint"
-
-on:
-  workflow_dispatch:
-
-jobs:
-  main:
-    uses: "lindsaygelle/AWSAnimalCrossingWorkflows/.github/workflows/pylint.yml@main"
