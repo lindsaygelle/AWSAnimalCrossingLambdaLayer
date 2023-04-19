@@ -1,2 +1,2 @@
-# AnimalCrossingMySQL
-AnimalCrossingMySQL
+# AnimalCrossingMySql
+AnimalCrossingMySql
